@@ -1,0 +1,55 @@
+﻿@inherits BasePage
+@page "/admin/match"
+@page "/admin/match/{ContestName}/{GUID}"
+@using FLL.Data.Models;
+
+
+@if (contest == null)
+{
+    <div class="alert alert-danger">
+        No contest created
+    </div>
+
+    <RadzenButton Text="Create contest FLL SWISS 2023" Click="@(() => CreateContest("FLL_SWISS_2023"))" />
+
+    return;
+}
+
+
+@if (!contest.Rounds.Any())
+{
+    <div class="alert alert-danger">
+        No rounds found
+    </div>
+    return;
+}
+
+<RadzenDataList AllowPaging=false Data="@contest.Rounds.OrderBy(x => x.RoundId)" TItem="RoundItem">
+    <Template Context="item">
+        <RadzenCard Style="width: 100%; padding: 0;">
+            <RadzenText TextStyle="TextStyle.H3">@item.RoundId - @item.Name</RadzenText>
+            <table class="table table-striped bg-white">
+                <thead>
+                    <tr>
+                        <th scope="col">Time</th>
+                        <th scope="col">Table</th>
+                        <th scope="col">Team 1</th>
+                        <th scope="col">Team 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var match in item.Matchs.OrderBy(x => x.StartTime))
+                    {
+                        <tr>
+                            <th scope="row">@match.StartTime.ToString("HH:mm")</th>
+                            <td>@match.Table?.Name</td>
+                            <td>@match.Team1?.Name</td>
+                            <td>@match.Team2?.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </RadzenCard>
+    </Template>
+</RadzenDataList>

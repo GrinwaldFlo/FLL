@@ -1,4 +1,4 @@
-﻿using static FLL.Services.TeamsService;
+﻿using static FLL.Services.MatchService;
 
 namespace FLL.Data.Models
 {

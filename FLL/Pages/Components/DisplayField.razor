@@ -24,16 +24,15 @@
 	}
 	else
 	{
-		<div class="fw-bold">@((MarkupString)@HtmlUtils.GetUrl(Label, ValueHttp))</div>
-		@*
+		@*<div class="fw-bold">@((MarkupString)@HtmlUtils.GetUrl(Label, Value))</div>*@
 
-		<a href="@ValueHttp.CheckUrl(Label)" target="_blank">
+
+		<a href="@Value" target="_blank">
 			<div class="fw-bold">
-				@Label @(ShowLink ? $" ({ValueHttp})" : "")
+				@Label @(ShowLink ? $" ({Value})" : "")
 			</div>
 		</a>
-		<div class="ps-2 pb-2">
-		</div>*@
+
 	}
 
 }

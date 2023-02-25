@@ -51,8 +51,8 @@ namespace FLL.Data.Models
             return AccessLevels.None;
         }
 
-        [NotMapped] internal string UrlAdmin => $"admin/{ShortName}/{AdminGuid}";
-        [NotMapped] internal string UrlUser => $"user/{ShortName}/{UserGuid}";
-        [NotMapped] internal string UrlView => $"view/{ShortName}/{ViewGuid}";
+        [NotMapped] internal string UrlAdmin => $"/admin/{ShortName}/{AdminGuid}";
+        [NotMapped] internal string UrlUser => $"/user/{ShortName}/{UserGuid}";
+        [NotMapped] internal string UrlView => $"/view/{ShortName}/{ViewGuid}";
     }
 }

@@ -13,12 +13,12 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
     .WriteTo.Console()
-    .WriteTo.File(builder.Configuration.GetSection("LogPath").Value,
+    .WriteTo.File(builder.Configuration.GetSection("LogPath").Value ?? "",
         rollingInterval: RollingInterval.Day,
         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
-if (!Crypto.SetKey(builder.Configuration["CryptoKey"]))
+if (!Crypto.SetKey(builder.Configuration["CryptoKey"] ?? ""))
 {
     Crypto.CreateKey();
 }
@@ -44,7 +44,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<FLL.Services.DataService>();
 builder.Services.AddSingleton<FLL.Services.ChronoService>();
-builder.Services.AddSingleton<FLL.Services.TeamsService>();
+builder.Services.AddSingleton<FLL.Services.MatchService>();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();

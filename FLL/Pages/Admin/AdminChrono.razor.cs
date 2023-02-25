@@ -6,11 +6,14 @@ using Radzen.Blazor;
 
 namespace FLL.Pages.Admin
 {
-    public partial class AdminChrono
+    public partial class AdminChrono : IDisposable
     {
         private readonly GridEditor<Chrono> gridEditor = new();
+        private bool disposedValue;
 
         [Inject] ChronoService ChronoService { get; set; } = null!;
+
+    
 
         protected override void OnInitialized()
         {
@@ -51,6 +54,20 @@ namespace FLL.Pages.Admin
             ChronoService.AskUpdate = true;
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                
+                disposedValue = true;
+            }
+        }
 
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

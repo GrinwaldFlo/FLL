@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 
 namespace FLL.Utils
 {
-    public class HtmlUtils
+    public partial class HtmlUtils
     {
 		/// <summary>
 		/// Get url and add Icon for social media
@@ -71,7 +71,7 @@ namespace FLL.Utils
                 case HtmlNodeType.Text:
                     // script and style must not be output
                     string parentName = node.ParentNode.Name;
-                    if ((parentName == "script") || (parentName == "style"))
+                    if (parentName == "script" || parentName == "style")
                     {
                         break;
                     }
@@ -93,7 +93,7 @@ namespace FLL.Utils
                         if (html.Length == 0) { break; }
                         textInfo.IsFirstTextOfDocWritten.Value = textInfo.WritePrecedingWhiteSpace = true;
                     }
-                    outText.Write(HtmlEntity.DeEntitize(Regex.Replace(html.TrimEnd(), @"\s{2,}", " ")));
+                    outText.Write(HtmlEntity.DeEntitize(RexexFind().Replace(html.TrimEnd(), " ")));
                     if (textInfo.LastCharWasSpace = char.IsWhiteSpace(html[^1]))
                     {
                         outText.Write(' ');
@@ -191,6 +191,9 @@ namespace FLL.Utils
                     break;
             }
         }
+
+        [GeneratedRegex("\\s{2,}")]
+        private static partial Regex RexexFind();
     }
     internal class PreceedingDomTextInfo
     {

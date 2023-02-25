@@ -1,0 +1,56 @@
+﻿@inherits BasePage
+@page "/manage/match"
+@page "/manage/match/{ContestName}/{GUID}"
+@using FLL.Data.Models;
+
+
+@if (contest == null)
+{
+    <div class="alert alert-danger">
+        No contest created
+    </div>
+
+    return;
+}
+
+
+@if (!contest.Rounds.Any())
+{
+    <div class="alert alert-danger">
+        No rounds found
+    </div>
+    return;
+}
+
+<RadzenDataList AllowPaging=false Data="@contest.Rounds.OrderBy(x => x.RoundId)" TItem="RoundItem">
+    <Template Context="item">
+        <RadzenCard Style="width: 100%; padding: 0;">
+            <RadzenText TextStyle="TextStyle.H3">@item.RoundId - @item.Name</RadzenText>
+            <table class="table table-striped bg-white">
+                <thead>
+                    <tr>
+                        <th scope="col">Time</th>
+                        <th scope="col">Table</th>
+                        <th scope="col">Team 1</th>
+                        <th scope="col">Team 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var match in item.Matchs.OrderBy(x => x.StartTime))
+                    {
+                        <tr>
+                            <th scope="row">@match.StartTime.ToString("HH:mm")</th>
+                            <td>@match.Table?.Name</td>
+                            <td>
+                                <RadzenDropDown TValue="TeamItem" AllowClear=true Value=@match.Team1 Data=@contest.Teams.OrderBy(x => x.TeamId) Change="@(args => ChangeTeam1(match, args) )" Style="width:100%" AllowFiltering=true FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
+                            </td>
+                            <td>
+                                <RadzenDropDown TValue="TeamItem" AllowClear=true Value=@match.Team2 Data=@contest.Teams.OrderBy(x => x.TeamId) Change="@(args => ChangeTeam2(match, args) )" Style="width:100%" AllowFiltering=true FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>
