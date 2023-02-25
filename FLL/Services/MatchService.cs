@@ -112,18 +112,21 @@ namespace FLL.Services
 
             foreach (var round in c.Rounds)
             {
-                DateTime time = round.StartTime;
-                foreach (var match in round.Matchs)
-                {
-                    match.StartTime = time;
-                    time = time.AddMinutes(round.MinBtwMatch);
-                }
+                UpdateTime(round);
             }
-
-
-
             return c;
         }
+
+        internal static void UpdateTime(RoundItem round)
+        {
+            DateTime time = round.StartTime;
+            foreach (var match in round.Matchs)
+            {
+                match.StartTime = time;
+                time = time.AddMinutes(round.MinBtwMatch);
+            }
+        }
+
 
         private static void BuildRound1(ContestMatch c, RoundItem round)
         {

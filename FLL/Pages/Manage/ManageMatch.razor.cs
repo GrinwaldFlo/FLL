@@ -24,11 +24,51 @@ namespace FLL.Pages.Manage
 
         }
 
+        private string GetPath(RoundItem round)
+        {
+            return $"/view/match/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/{round.RoundId}";
+        }
+
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             await OnChange(Set.Contest?.ID ?? 0);
             onMatchChange = Match.OnChange.Subscribe(async (arg) => await OnChange(arg));
+        }
+
+        private void ChangeTable(MatchItem match, object newTable)
+        {
+            if (newTable is TableItem table)
+            {
+                match.Table = table;
+                Match.SaveDb();
+                if (Set.Contest != null)
+                    Match.OnChange.OnNext(Set.Contest.ID);
+            }
+        }
+
+        private void ChangeTime(RoundItem round, DateTime? newTime)
+        {
+            if (newTime is not null)
+            {
+                round.StartTime = newTime.Value;
+                MatchService.UpdateTime(round);
+                Match.SaveDb();
+                if (Set.Contest != null)
+                    Match.OnChange.OnNext(Set.Contest.ID);
+            }
+        }
+
+        private void ChangeTime(MatchItem match, DateTime? newTime)
+        {
+            if (newTime is not null)
+            {
+                match.StartTime = newTime.Value;
+                Match.SaveDb();
+                if (Set.Contest != null)
+                    Match.OnChange.OnNext(Set.Contest.ID);
+            }
         }
 
         private void ChangeTeam1(MatchItem match, object newTeam)
@@ -58,7 +98,7 @@ namespace FLL.Pages.Manage
                 match.Team2 = null;
                 Match.SaveDb();
             }
-            if(Set.Contest != null)
+            if (Set.Contest != null)
                 Match.OnChange.OnNext(Set.Contest.ID);
         }
 
@@ -71,7 +111,7 @@ namespace FLL.Pages.Manage
                     contest = Match.GetContest(Set.Contest.ID);
                 }
                 await InvokeAsync(StateHasChanged);
-            }                
+            }
         }
 
         protected virtual void Dispose(bool disposing)

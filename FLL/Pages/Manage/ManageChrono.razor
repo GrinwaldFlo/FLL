@@ -38,7 +38,7 @@
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Width="200px">
             <Template Context="item">
-                <RadzenButton Text="Open in new tab" Click=@(() => View(item)) />
+                <RadzenLink Text="Open in new tab" Target="_blank" Path=@(GetPath(item)) />
             </Template>
         </RadzenDataGridColumn>
     </Columns>

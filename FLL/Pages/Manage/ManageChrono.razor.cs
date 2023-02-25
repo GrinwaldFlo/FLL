@@ -42,9 +42,9 @@ namespace FLL.Pages.Manage
                 await InvokeAsync(StateHasChanged);
         }
 
-        private async Task View(Chrono chrono)
+        private string GetPath(Chrono chrono)
         {
-            await NavigateToNewTab($"/view/chrono/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/{chrono.ID}");
+            return $"/view/chrono/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/{chrono.ID}";
         }
 
     }

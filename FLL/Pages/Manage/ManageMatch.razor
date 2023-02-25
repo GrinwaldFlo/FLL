@@ -25,7 +25,14 @@
 <RadzenDataList AllowPaging=false Data="@contest.Rounds.OrderBy(x => x.RoundId)" TItem="RoundItem">
     <Template Context="item">
         <RadzenCard Style="width: 100%; padding: 0;">
-            <RadzenText TextStyle="TextStyle.H3">@item.RoundId - @item.Name</RadzenText>
+            <div class="d-flex flex-row">
+                <RadzenText TextStyle="TextStyle.H3">@item.RoundId - @item.Name</RadzenText>
+                <div class="my-auto mx-5">
+                    <RadzenLink Target="_blank" Text="Open in new tab" Path=@GetPath(item) />
+                </div>
+
+                <RadzenDatePicker class="my-auto" Value="item.StartTime" TValue=DateTime Change="@(args => ChangeTime(item, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
+            </div>
             <table class="table table-striped bg-white">
                 <thead>
                     <tr>
@@ -39,8 +46,12 @@
                     @foreach (var match in item.Matchs.OrderBy(x => x.StartTime))
                     {
                         <tr>
-                            <th scope="row">@match.StartTime.ToString("HH:mm")</th>
-                            <td>@match.Table?.Name</td>
+                            <th scope="row">
+                                <RadzenDatePicker Value="match.StartTime" TValue=DateTime Change="@(args => ChangeTime(match, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
+                            </th>
+                            <td>
+                                <RadzenDropDown TValue="TableItem" Value=@match.Table Data=@contest.Tables.OrderBy(x => x.TableId) Change="@(args => ChangeTable(match, args) )" Style="width:100%" />
+                            </td>
                             <td>
                                 <RadzenDropDown TValue="TeamItem" AllowClear=true Value=@match.Team1 Data=@contest.Teams.OrderBy(x => x.TeamId) Change="@(args => ChangeTeam1(match, args) )" Style="width:100%" AllowFiltering=true FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
                             </td>
