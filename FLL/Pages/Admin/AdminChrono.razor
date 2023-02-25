@@ -1,0 +1,47 @@
+﻿@inherits BasePage
+@page "/admin/chrono"
+@page "/admin/chrono/{ContestName}/{GUID}"
+
+@if (gridEditor == null)
+{
+    return;
+}
+
+
+<RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Class="mt-2 mb-4" Text="Add New" Click="@gridEditor.InsertRow" Disabled=@gridEditor.DisableAdd />
+<RadzenDataGrid @ref="gridEditor.Grid" AllowAlternatingRows="false" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="DataGridEditMode.Single"
+                Data="@gridEditor.Items" TItem="FLL.Data.Models.Chrono" RowUpdate="@gridEditor.OnUpdateRow" RowCreate="@gridEditor.OnCreateRow" Sort="@gridEditor.Reset" Page="@gridEditor.Reset" Filter="@gridEditor.Reset">
+    <Columns>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="ID" Title="ID" Width="120px" />
+
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="Name" Title="Name">
+            <EditTemplate Context="item">
+                <RadzenTextBox @bind-Value="item.Name" Style="width:100%; display: block" Name="Name" />
+                <RadzenRequiredValidator Text="Value is required" Component="Name" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="DurationS" Title="Duration [s]">
+            <EditTemplate Context="item">
+                <RadzenNumeric @bind-Value="item.DurationS" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="156px">
+            <Template Context="item">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => gridEditor.EditRow(item))" @onclick:stopPropagation="true">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" Class="my-1 ms-1" 
+                    Click="@(args => gridEditor.DeleteRow(item))" @onclick:stopPropagation="true">
+                </RadzenButton>
+            </Template>
+            <EditTemplate Context="item">
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => gridEditor.SaveRow(item))">
+                </RadzenButton>
+                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@((args) => gridEditor.CancelEdit(item))">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(args => gridEditor.DeleteRow(item))">
+                </RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>

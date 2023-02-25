@@ -1,0 +1,88 @@
+﻿@using FLL.Utils;
+
+@if (ChildContent == null)
+{
+	if (string.IsNullOrEmpty(Value))
+	{
+		return;
+	}
+
+	@if (!IsLink && !IsEmail)
+	{
+		<div class="fw-bold">
+			@Label
+		</div>
+		<div class="ps-2 pb-2">
+			@((MarkupString)Value)
+		</div>
+	}
+	else if (IsEmail)
+	{
+		<div class="fw-bold">
+			@((MarkupString)emailIcon)<a href="mailto:@Value">@Value</a>
+		</div>
+	}
+	else
+	{
+		<div class="fw-bold">@((MarkupString)@HtmlUtils.GetUrl(Label, ValueHttp))</div>
+		@*
+
+		<a href="@ValueHttp.CheckUrl(Label)" target="_blank">
+			<div class="fw-bold">
+				@Label @(ShowLink ? $" ({ValueHttp})" : "")
+			</div>
+		</a>
+		<div class="ps-2 pb-2">
+		</div>*@
+	}
+
+}
+else
+{
+	<div class="fw-bold">
+		@Label
+	</div>
+	<div class="ps-2 pb-2">
+		@if (IsLink)
+		{
+			<a href="@ChildContent" target="_blank">@ChildContent</a>
+		}
+		else if (IsEmail)
+		{
+			<a href="mailto:@ChildContent">@ChildContent</a>
+		}
+		else
+		{
+			@ChildContent
+		}
+
+	</div>
+}
+
+
+
+
+@code {
+	[Parameter] public string? Label { get; set; }
+	[Parameter] public bool IsLink { get; set; }
+	[Parameter] public bool ShowLink { get; set; }
+	[Parameter] public bool IsEmail { get; set; }
+	[Parameter] public bool Visible { get; set; } = true;
+	[Parameter] public string? Value { get; set; }
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	public string ValueHttp
+	{
+		get
+		{
+			if (Value?.StartsWith("http://") is true || Value?.StartsWith("https://") is true)
+				return Value;
+
+			return $"https://{Value}";
+		}
+	}
+
+
+	private string emailIcon => $"<object class='me-1 social-icon' data='/img/icons/Email.svg' width='20' height='20'> </object>";
+
+}

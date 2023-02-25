@@ -1,0 +1,26 @@
+﻿@if (Label != null)
+{
+    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@Label</RadzenText>
+}
+<RadzenDatePicker DateFormat="dd MMM yy" Name=@Label Value=@Value TValue="DateTimeOffset?" Change=@(arg => OnChange(arg)) Class="w-100" />
+@if (IsRequired)
+{
+    <RadzenRequiredValidator Component=@Label Text="Value is required" Style="position: relative" />
+}
+
+@code
+{
+    [Parameter] public string? Label { get; set; }
+
+    [Parameter] public DateTimeOffset? Value { get; set; }
+    [Parameter] public EventCallback<DateTimeOffset?> ValueChanged { get; set; }
+    [Parameter] public EventCallback Change { get; set; }
+    [Parameter] public bool IsRequired { get; set; } = false;
+
+    async Task OnChange(DateTimeOffset? newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
+        await Change.InvokeAsync(newValue);
+    }
+}

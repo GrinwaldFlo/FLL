@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+
+
+<CascadingValue Value=@navSettings>
+    <PageTitle>@navSettings.PageName</PageTitle>
+
+    <div class="page">
+        <main>
+            @if (showTopMenu)
+            {
+                <div class="top-row">
+                    <TopMenu />
+                </div>
+            }
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+</CascadingValue>
+
+<RadzenDialog />
+<RadzenNotification />
+<RadzenContextMenu />
+<RadzenTooltip />

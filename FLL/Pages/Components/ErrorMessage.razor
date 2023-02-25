@@ -1,0 +1,13 @@
+﻿
+@if (Message != null)
+{
+    <div class="alert alert-danger">
+        @((MarkupString)Message.StringWithBr())
+    </div>
+}
+
+
+@code {
+
+    [Parameter] public string? Message { get; set; }
+}

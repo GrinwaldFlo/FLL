@@ -1,0 +1,10 @@
+﻿@page "/view/{ContestName}/{GUID}"
+@page "/view"
+
+@inherits BasePage
+<PageTitle>@Set.Contest?.ShortName - Robot-CH event manager</PageTitle>
+
+<RadzenCard>
+    <DisplayField Label="Contest" Value=@Set.Contest?.Name />
+    <DisplayField Label="View url" IsLink=true Value=@Set.Contest?.UrlView />
+</RadzenCard>

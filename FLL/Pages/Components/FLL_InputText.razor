@@ -1,0 +1,42 @@
+﻿ <div class="col">
+@if (Label != null)
+{
+    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@Label</RadzenText>
+}
+<RadzenTextBox Name=@Label @bind-Value=Value Change=@(arg => OnChange(arg)) Class="w-100" AutoComplete=false />
+@if (Label != null)
+{
+        <RadzenLengthValidator Component=@Label Min=@Min Text=@($"Should have more than {Min} characters") Style="position: relative" />
+}
+@if (Label != null)
+{
+        <RadzenLengthValidator Component=@Label Max=@Max Text=@($"Should have less than {Max} characters") Style="position: relative" />
+}
+@if (LetterDigitOnly)
+{
+    <RadzenRegexValidator Component=@Label Text="Letters, digit and _ are allowed" Pattern="[a-zA-Z0-9_]+" Style="position: relative" />
+}
+@if (IsEmail)
+{
+        <RadzenRegexValidator Component=@Label Text="Provide a valid email address" Pattern=@ValidationExtension.RegexEmailValidation  />
+}
+</div>
+@code
+{
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public int? Min { get; set; }
+    [Parameter] public int? Max { get; set; }
+    [Parameter] public bool LetterDigitOnly { get; set; } = false;
+    [Parameter] public bool IsEmail { get; set; } = false;
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    //[Parameter] public EventCallback Change { get; set; }
+
+    async Task OnChange(string newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
+        //  await Change.InvokeAsync(newValue);
+    }
+}

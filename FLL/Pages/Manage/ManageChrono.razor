@@ -1,0 +1,45 @@
+﻿@inherits BasePage
+@page "/manage/chrono"
+@page "/manage/chrono/{ContestName}/{GUID}"
+
+
+<RadzenDataGrid AllowAlternatingRows="false" AllowFiltering="false" AllowPaging=false PageSize="5" AllowSorting=false
+                Data="@chronos" TItem="FLL.Data.Models.Chrono" ColumnWidth="100px">
+    <Columns>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="Name" Title="Name"  />
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="DurationS" Title="DurationS" Width="80px" />
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="Running" Title="Running" Width="80px" />
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Property="Remaining" Title="Live [s]" FormatString="{0:N1}" Width="80px" />
+
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Filterable="false" Sortable="false" >
+            <Template Context="item">
+                <RadzenButton Text="Reset" Click=@(() => ChronoService.Reset(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Filterable="false" Sortable="false">
+            <Template Context="item">
+                <RadzenButton Text="Start" Click=@(() => ChronoService.Start(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Filterable="false" Sortable="false" >
+            <Template Context="item">
+                <RadzenButton Text="Stop" Click=@(() => ChronoService.Stop(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item">
+            <Template Context="item">
+                <RadzenButton Text="Show" Click=@(() => ChronoService.Show(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" >
+            <Template Context="item">
+                <RadzenButton Text="Hide" Click=@(() => ChronoService.Hide(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="FLL.Data.Models.Chrono" Context="item" Width="200px">
+            <Template Context="item">
+                <RadzenButton Text="Open in new tab" Click=@(() => View(item)) />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>

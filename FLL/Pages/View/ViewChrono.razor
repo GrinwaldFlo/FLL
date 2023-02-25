@@ -1,0 +1,25 @@
+﻿@inherits BasePage
+@page "/view/chrono/{ContestName}/{GUID}/{ChronoID:int}"
+
+@if (chrono == null || !chrono.IsVisible)
+{
+    return;
+}
+
+<RadzenArcGauge Style="width: 100%; height: 500px; background:transparent">
+    <RadzenArcGaugeScale Min="0" Max=@chrono.DurationS StartAngle="0" EndAngle="360" Fill="rgba(249, 32, 99, 0.5)">
+        <RadzenArcGaugeScaleValue Value=@chrono.Remaining Fill="rgb(249, 32, 99)">
+            <Template>
+                <svg width="100%" viewBox="0 0 400 400">
+                    <circle cx="200" cy="200" r="200" stroke="black" stroke-width="0" fill="white" />
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="8em">@($"{chrono.Remaining:N0}")</text>
+
+                </svg>
+            </Template>
+        </RadzenArcGaugeScaleValue>
+
+    </RadzenArcGaugeScale>
+    <RadzenArcGaugeScale Min="0" Max=@chrono.DurationS StartAngle="0" EndAngle="360" Radius="0.8"  Fill="rgba(249, 32, 99, 0.5)">
+        <RadzenArcGaugeScaleValue Value=@chrono.Remaining Fill="rgb(249, 32, 99)" ShowValue="false" />
+    </RadzenArcGaugeScale>
+</RadzenArcGauge>

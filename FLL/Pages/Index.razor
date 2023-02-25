@@ -1,0 +1,21 @@
+﻿@page "/"
+@inherits BasePage
+
+
+
+
+<RadzenCard class="col-12 col-md-6">
+    <RadzenText Text="This website will help you to organise your event. There are no logins, everything is managed with URL or email. Be carefull when sharing an URL from this website." />
+
+    <RadzenTemplateForm TItem="Data.Models.Contest" Data=@newContest Submit=@OnSubmit autocomplete="off">
+        <FLL_InputText Label="Event name" Min="3" Max="50" @bind-Value=newContest.Name />
+        <FLL_InputText Label="Short name" Min="3" Max="10" LetterDigitOnly=true @bind-Value=newContest.ShortName />
+        <FLL_InputText Label="Email" IsEmail=true @bind-Value=newContest.Email />
+        <FLL_InputDate Label="From (optional)" IsRequired=false @bind-Value=newContest.DateFrom Change=@(arg => UpdateTo(newContest.DateFrom)) />
+        <FLL_InputDate Label="To (optional)" IsRequired=false @bind-Value=newContest.DateTo />
+
+        <RadzenButton ButtonType="ButtonType.Submit" Text="Create" ></RadzenButton>
+    </RadzenTemplateForm>
+
+    <ErrorMessage Message=@ErrorMessage />
+</RadzenCard>

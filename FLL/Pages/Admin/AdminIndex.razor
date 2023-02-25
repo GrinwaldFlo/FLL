@@ -1,0 +1,20 @@
+﻿@page "/admin/{ContestName}/{GUID}"
+@page "/admin"
+
+@inherits BasePage
+<PageTitle>@Set.Contest?.ShortName - Robot-CH event manager</PageTitle>
+
+<RadzenCard>
+    <DisplayField Label="Contest" Value=@Set.Contest?.Name />
+
+    <DisplayField Label="Admin url" IsLink=true Value=@Set.Contest?.UrlAdmin />
+    <DisplayField Label="User url" IsLink=true Value=@Set.Contest?.UrlUser />
+    <DisplayField Label="View url" IsLink=true Value=@Set.Contest?.UrlView />
+</RadzenCard>
+
+
+
+@code 
+{
+
+}
