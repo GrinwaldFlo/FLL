@@ -52,7 +52,7 @@ namespace FLL.Data.Models
         }
 
         [NotMapped] internal string UrlAdmin => $"/admin/{ShortName}/{AdminGuid}";
-        [NotMapped] internal string UrlUser => $"/user/{ShortName}/{UserGuid}";
+        [NotMapped] internal string UrlManage => $"/manage/{ShortName}/{UserGuid}";
         [NotMapped] internal string UrlView => $"/view/{ShortName}/{ViewGuid}";
     }
 }

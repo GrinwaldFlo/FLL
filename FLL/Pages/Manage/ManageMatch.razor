@@ -28,7 +28,7 @@
             <div class="d-flex flex-row">
                 <RadzenText TextStyle="TextStyle.H3">@item.RoundId - @item.Name</RadzenText>
                 <div class="my-auto mx-5">
-                    <RadzenLink Target="_blank" Text="Open in new tab" Path=@GetPath(item) />
+                    <RadzenLink Target="_blank" Text="Open view in new tab" Path=@GetPath(item) />
                 </div>
 
                 <RadzenDatePicker class="my-auto" Value="item.StartTime" TValue=DateTime Change="@(args => ChangeTime(item, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />

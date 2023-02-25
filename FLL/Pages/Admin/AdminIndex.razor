@@ -7,9 +7,9 @@
 <RadzenCard>
     <DisplayField Label="Contest" Value=@Set.Contest?.Name />
 
-    <DisplayField Label="Admin url" IsLink=true ShowLink=true Value=@Set.Contest?.UrlAdmin />
-    <DisplayField Label="User url" IsLink=true ShowLink=true Value=@Set.Contest?.UrlUser />
-    <DisplayField Label="View url" IsLink=true ShowLink=true Value=@Set.Contest?.UrlView />
+    <DisplayField Label="Admin url" IsLink=true ShowLink=false Value =@Set.Contest?.UrlAdmin />
+    <DisplayField Label="Mange url" IsLink=true ShowLink=false Value=@Set.Contest?.UrlManage />
+    <DisplayField Label="View url" IsLink=true ShowLink=false Value=@Set.Contest?.UrlView />
 </RadzenCard>
 
 
