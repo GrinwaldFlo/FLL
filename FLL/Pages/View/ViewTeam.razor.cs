@@ -38,7 +38,7 @@ namespace FLL.Pages.View
 
             thread = new Thread(DoWork);
             thread.Start();
-           
+
             base.OnInitialized();
         }
 
@@ -55,8 +55,11 @@ namespace FLL.Pages.View
 
         private void UpdateValue()
         {
-            double curTime = DateTime.Now.Hour * 60 + DateTime.Now.Minute + 1;
-            var round = contest?.Rounds.OrderByDescending(x => x.StartTime).FirstOrDefault(x => x.StartTime.Hour * 60 + x.StartTime.Minute < curTime);
+            if (contest == null)
+                return;
+
+            double curTime = DateTime.Now.Hour * 60 + DateTime.Now.Minute + 1 + (contest.Contest?.UtcOffsetMin ?? 0);
+            var round = contest.Rounds.OrderByDescending(x => x.StartTime).FirstOrDefault(x => x.StartTime.Hour * 60 + x.StartTime.Minute < curTime);
             var match = round?.Matchs.OrderByDescending(x => x.StartTime).FirstOrDefault(x => x.StartTime.Hour * 60 + x.StartTime.Minute < curTime);
 
             if (TeamNum == 0)
@@ -64,7 +67,7 @@ namespace FLL.Pages.View
             else if (TeamNum == 1)
                 ShownValue = $"{match?.Team1?.Name}-{match?.Team1?.School}";
             else if (TeamNum == 2)
-                ShownValue = match?.Team2.FullName;
+                ShownValue = match?.Team2?.FullName;
         }
 
 

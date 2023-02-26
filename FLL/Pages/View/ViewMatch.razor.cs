@@ -12,7 +12,7 @@ namespace FLL.Pages.View
         [Parameter] public int? RoundId { get; set; }
 
         private ContestMatch? contest;
-        private RoundItem? round => contest?.Rounds.FirstOrDefault(x => x.RoundId == RoundId);
+        private RoundItem? Round => contest?.Rounds.FirstOrDefault(x => x.RoundId == RoundId);
         [Inject] MatchService Match { get; set; } = null!;
 
         private IDisposable? onMatchChange;

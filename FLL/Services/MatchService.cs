@@ -34,6 +34,7 @@ namespace FLL.Services
             lock (lockDb)
             {
                 var curContestMatch = Db.ContestMatches
+                    .Include(x => x.Contest)
                     .Include(x => x.Tables)
                     .Include(x => x.Rounds).ThenInclude(x => x.Matchs).ThenInclude(x => x.Team1)
                     .Include(x => x.Rounds).ThenInclude(x => x.Matchs).ThenInclude(x => x.Team2)

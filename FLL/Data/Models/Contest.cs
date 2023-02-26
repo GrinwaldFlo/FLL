@@ -21,6 +21,8 @@ namespace FLL.Data.Models
 
         public DateTimeOffset? DateTo { get; set; }
 
+        public int UtcOffsetMin { get; set; }
+
         [Required]
         public string Email { get; set; } = null!;
 

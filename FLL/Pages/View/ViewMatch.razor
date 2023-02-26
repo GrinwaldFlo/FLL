@@ -1,12 +1,12 @@
 ﻿@inherits BasePage
 @page "/view/match/{ContestName}/{GUID}/{RoundId:int}"
 
-@if (contest == null || round == null)
+@if (contest == null || Round == null)
 {
     return;
 }
 
-<RadzenText TextStyle="TextStyle.H3" class="text-center">@round.Name</RadzenText>
+<RadzenText TextStyle="TextStyle.H3" class="text-center">@Round.Name</RadzenText>
 <table class="table table-striped bg-white">
     <thead>
         <tr>
@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var match in round.Matchs.OrderBy(x => x.StartTime))
+        @foreach (var match in Round.Matchs.OrderBy(x => x.StartTime))
         {
             <tr>
                 <th scope="row">@match.StartTime.ToString("HH:mm")</th>
