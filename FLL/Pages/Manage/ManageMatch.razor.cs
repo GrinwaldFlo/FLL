@@ -3,6 +3,7 @@ using FLL.Pages.Components;
 using FLL.Services;
 using Microsoft.AspNetCore.Components;
 using System;
+using static FLL.Data.Types.JsonHandsOn;
 
 namespace FLL.Pages.Manage
 {
@@ -27,6 +28,17 @@ namespace FLL.Pages.Manage
         private string GetPath(RoundItem round)
         {
             return $"/view/match/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/{round.RoundId}";
+        }
+
+        private string GetPath(string item)
+        {
+            return item switch
+            {
+                "Team1" => $"/view/team/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/1",
+                "Team2" => $"/view/team/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/2",
+                "Table" => $"/view/team/{Set.Contest?.ShortName}/{Set.Contest?.ViewGuid}/0",
+                _ => ""
+            };
         }
 
 
@@ -60,11 +72,40 @@ namespace FLL.Pages.Manage
             }
         }
 
-        private void ChangeTime(MatchItem match, DateTime? newTime)
+        private void ChangeMinBtwMatch(RoundItem round, double? newMinBtwMatch)
+        {
+            if (newMinBtwMatch is not null)
+            {
+                round.MinBtwMatch = newMinBtwMatch.Value;
+                Match.SaveDb();
+                if (Set.Contest != null)
+                    Match.OnChange.OnNext(Set.Contest.ID);
+            }
+        }
+
+        private void ChangeTime(RoundItem round, MatchItem match, DateTime? newTime)
         {
             if (newTime is not null)
             {
                 match.StartTime = newTime.Value;
+
+                bool startUpdateTime = false;
+                MatchItem? lastMatch = null;
+                foreach (var matchItem in round.Matchs)
+                {
+                    if (match.ID == matchItem.ID)
+                    {
+                        startUpdateTime = true;
+                        lastMatch = matchItem;
+                    }
+                    else if(startUpdateTime)
+                    {
+                        if(lastMatch != null)
+                            matchItem.StartTime = lastMatch.StartTime.AddMinutes(round.MinBtwMatch);
+                        lastMatch = matchItem;
+                    }
+                }
+
                 Match.SaveDb();
                 if (Set.Contest != null)
                     Match.OnChange.OnNext(Set.Contest.ID);

@@ -1,4 +1,6 @@
-﻿namespace FLL.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FLL.Data.Models
 {
     public class TeamItem
     {
@@ -6,6 +8,9 @@
         public int TeamId { get; set; }
         public string? Name { get; set; }
         public string? School { get; set; }
+
+        [NotMapped]
+        public string? FullName => Name == School || School == null ? Name : $"{Name}-{School}";
 
         public override string ToString()
         {

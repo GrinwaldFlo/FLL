@@ -21,6 +21,10 @@
     </div>
     return;
 }
+<i>Based on the time, automatically show the current team and table</i>
+<RadzenLink Text="Open table in new tab" Target="_blank" Path=@(GetPath("Table")) class="my-auto mx-1" />
+<RadzenLink Text="Open team 1 in new tab" Target="_blank" Path=@(GetPath("Team1")) class="my-auto mx-1" />
+<RadzenLink Text="Open team 2 in new tab" Target="_blank" Path=@(GetPath("Team2")) class="my-auto mx-1" />
 
 <RadzenDataList AllowPaging=false Data="@contest.Rounds.OrderBy(x => x.RoundId)" TItem="RoundItem">
     <Template Context="item">
@@ -31,7 +35,10 @@
                     <RadzenLink Target="_blank" Text="Open view in new tab" Path=@GetPath(item) />
                 </div>
 
-                <RadzenDatePicker class="my-auto" Value="item.StartTime" TValue=DateTime Change="@(args => ChangeTime(item, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
+                <RadzenDatePicker class="my-auto" Style="width:110px" Value="item.StartTime" TValue=DateTime Change="@(args => ChangeTime(item, args))" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
+
+                <RadzenText class="my-auto ms-3 me-1" TextStyle="TextStyle.Caption">Time between match</RadzenText>
+                <RadzenNumeric class="my-auto" Style="width:100px" Value="item.MinBtwMatch" TValue="double" Min="1" Max="100" Change="@(args => ChangeMinBtwMatch(item, args))" />
             </div>
             <table class="table table-striped bg-white">
                 <thead>
@@ -47,10 +54,10 @@
                     {
                         <tr>
                             <th scope="row">
-                                <RadzenDatePicker Value="match.StartTime" TValue=DateTime Change="@(args => ChangeTime(match, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
+                                <RadzenDatePicker Value="match.StartTime" Style="width:110px" TValue=DateTime Change="@(args => ChangeTime(item, match, args) )" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" />
                             </th>
                             <td>
-                                <RadzenDropDown TValue="TableItem" Value=@match.Table Data=@contest.Tables.OrderBy(x => x.TableId) Change="@(args => ChangeTable(match, args) )" Style="width:100%" />
+                                <RadzenDropDown TValue="TableItem" Value=@match.Table Data=@contest.Tables.OrderBy(x => x.TableId) Change="@(args => ChangeTable(match, args) )" Style="width:200px" />
                             </td>
                             <td>
                                 <RadzenDropDown TValue="TeamItem" AllowClear=true Value=@match.Team1 Data=@contest.Teams.OrderBy(x => x.TeamId) Change="@(args => ChangeTeam1(match, args) )" Style="width:100%" AllowFiltering=true FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
